@@ -1,127 +1,463 @@
+# Python Pandas & GitHub Notes
 
-```python
-import pandas as pd                    # Import Pandas library
+---
 
-df = pd.read_csv('filename.csv')       # Load a CSV file
+# 1. Pandas Basics
 
-df.head()                              # Show first 5 rows
-df.head(10)                            # Show first 10 rows
-df.tail()                              # Show last 5 rows
+## Import Pandas Library
 
-df.shape                               # (number_of_rows, number_of_columns)
-df.dtypes                              # Data type of each column
-df.describe()                          # Statistical summary
-df.isnull().sum()                      # Count missing values per column
-df.columns.tolist()                    # List all column names
+```python id="q7m2x1"
+import pandas as pd
+```
 
-df['column_name']                      # Select one column
+Pandas is used for:
 
-# Boolean Filtering
-df[df['column'] == 'value']            # Filter rows equal to value
-df[df['column'] > 80]                  # Filter rows greater than 80
-df[df['column'] < 75]                  # Filter rows less than 75
+* Reading datasets
+* Cleaning data
+* Analyzing data
+* Performing operations on tables
 
-# Groupby and Aggregation
-df.groupby('column')['other'].mean()   # Average per group
-df['column'].value_counts()            # Count each unique value
+---
 
-# Sorting
-df.sort_values(by='column', ascending=False)   # Sort highest first
-df.sort_values(by='column', ascending=True)    # Sort lowest first
+# 2. Load CSV File
 
-# New Column
-df['new_col'] = df['col1'] + df['col2']  # Add columns together
+```python id="x4v8m2"
+df = pd.read_csv('filename.csv')
+```
 
-# Save DataFrame
-df.to_csv('output.csv', index=False)   # Save as CSV
+* `read_csv()` loads CSV files into a DataFrame.
+* `df` stands for DataFrame.
+
+---
+
+# 3. Display Data
+
+## First 5 Rows
+
+```python id="w2n5q8"
+df.head()
+```
+
+## First 10 Rows
+
+```python id="m9x1v4"
+df.head(10)
+```
+
+## Last 5 Rows
+
+```python id="t6k3p7"
+df.tail()
 ```
 
 ---
 
-## Types of Data — Summary
+# 4. Shape of Dataset
 
-### Structured Data
-- Organized in rows and columns
-- Every record has the same fields
-- Examples: marksheet, bank transactions, attendance register
-- Formats: CSV, Excel (.xlsx), SQL Database
+```python id="r5x2m8"
+df.shape
+```
 
-### Semi-Structured Data
-- Has labels/tags but not in strict rows and columns
-- Can have nested data (data inside data)
-- Examples: API responses, WhatsApp message metadata, config files
-- Formats: JSON, XML
+### Output Format
 
-### Unstructured Data
-- No predefined format or structure
-- Cannot be stored directly in a spreadsheet without losing information
-- Examples: photos, lecture videos, voice notes, PDFs, handwritten notes
-- Formats: JPG, MP4, MP3, PDF, TXT
+```python id="y8q1n6"
+(rows, columns)
+```
 
-**Key Fact:** 80% of all data created in the world is unstructured.
+Example:
 
----
+```python id="v4m7x1"
+(100, 13)
+```
 
-## GitHub Key Concepts
-
-| Term | Meaning | Analogy |
-|------|---------|---------|
-| Repository (Repo) | Project folder on GitHub | Google Drive folder for your project |
-| Commit | Saved snapshot with a message | Ctrl+S in Google Docs with a label |
-| Push | Send local code to GitHub | Upload to Google Drive |
-| Pull | Download code from GitHub | Download from Google Drive |
-| README.md | Project description file | Cover page of your project report |
-| Branch | Separate version of code | Making a copy to experiment on |
-
-### GitHub Setup Steps
-1. Go to github.com
-2. Sign Up → enter email, username, password
-3. Verify email
-4. Click '+' → 'New repository'
-5. Name: `codeboosters-internship-2024`
-6. Set to **Public**
-7. Check 'Add a README file'
-8. Click 'Create repository'
-
-### Uploading Notebook to GitHub
-1. Go to your repository
-2. Click 'Add file' → 'Upload files'
-3. Drag and drop your `.ipynb` file
-4. Write a commit message: `Add Day 1 notebook`
-5. Click 'Commit changes'
+* `100` → Number of rows
+* `13` → Number of columns
 
 ---
 
-## Common Errors and Fixes
+# 5. Data Types
 
-| Error | Fix |
-|-------|-----|
-| `ModuleNotFoundError: No module named 'pandas'` | Run `!pip install pandas` |
-| `FileNotFoundError: student_performance.csv` | Upload file via Colab Files panel |
-| `KeyError: 'column_name'` | Check `df.columns` for exact spelling |
-| `SyntaxError` | Check for missing brackets, quotes, colons |
-| `IndentationError` | Use exactly 4 spaces. Never mix tabs and spaces |
+```python id="z3n6k2"
+df.dtypes
+```
+
+Shows the datatype of each column.
+
+Examples:
+
+* `int64`
+* `float64`
+* `object` (text/string)
+
+---
+
+# 6. Statistical Summary
+
+```python id="c7m1x5"
+df.describe()
+```
+
+Displays:
+
+* Mean
+* Count
+* Minimum
+* Maximum
+* Standard Deviation
 
 ---
 
-## Dataset Reference — student_performance.csv
+# 7. Missing Values
 
-| Column | Type | Description |
-|--------|------|-------------|
-| student_id | int | Unique student number |
-| name | text | Student's full name |
-| age | int | Age in years |
-| gender | text | Male or Female |
-| department | text | Engineering department |
-| semester | int | Current semester |
-| math_score | int | Math marks (0-100) |
-| science_score | int | Science marks (0-100) |
-| english_score | int | English marks (0-100) |
-| programming_score | int | Programming marks (0-100) |
-| attendance_percentage | int | Attendance % (0-100) |
-| city | text | Home city |
-| admission_year | int | Year of admission |
+## Count Null Values
 
-**This dataset will be used across all 10 days of the internship.**
+```python id="n5x8q3"
+df.isnull().sum()
+```
+
+## Replace Null Values
+
+```python id="k2v7m1"
+df["semester"] = df["semester"].fillna(5)
+```
 
 ---
+
+# 8. Column Names
+
+```python id="q1m8x4"
+df.columns.tolist()
+```
+
+Converts all column names into a Python list.
+
+---
+
+# 9. Selecting Columns
+
+## Single Column
+
+```python id="x8n2v5"
+df['column_name']
+```
+
+Example:
+
+```python id="m4q7x1"
+df['department']
+```
+
+---
+
+# 10. Boolean Filtering
+
+## Equal To
+
+```python id="j5x1m8"
+df[df['column'] == 'value']
+```
+
+Example:
+
+```python id="r2n7v4"
+df[df['city'] == 'Chennai']
+```
+
+---
+
+## Greater Than
+
+```python id="c8m2x6"
+df[df['column'] > 80]
+```
+
+Example:
+
+```python id="p1v5n9"
+df[df['math_score'] > 80]
+```
+
+---
+
+## Less Than
+
+```python id="t7q3m1"
+df[df['column'] < 75]
+```
+
+---
+
+# 11. Using loc
+
+`loc` means **location-based indexing**.
+
+## Syntax
+
+```python id="x3m8q1"
+df.loc[row_condition, column_name]
+```
+
+## Example
+
+```python id="n9v2x5"
+df.loc[df['city'] == 'Chennai']
+```
+
+---
+
+# 12. Multiple Conditions
+
+```python id="p4m7x2"
+df.loc[
+    (df['city'] == 'Chennai') |
+    (df['city'] == 'Mumbai')
+]
+```
+
+---
+
+# 13. GroupBy and Aggregation
+
+## Average Per Group
+
+```python id="w8x1m4"
+df.groupby('column')['other'].mean()
+```
+
+Example:
+
+```python id="k5q2v7"
+df.groupby('department')['math_score'].mean()
+```
+
+---
+
+## Value Counts
+
+```python id="m1x9q3"
+df['column'].value_counts()
+```
+
+Example:
+
+```python id="v6n2x8"
+df['department'].value_counts()
+```
+
+---
+
+# 14. Sorting Data
+
+## Highest First
+
+```python id="q7x3m5"
+df.sort_values(by='column', ascending=False)
+```
+
+## Lowest First
+
+```python id="r2m8x1"
+df.sort_values(by='column', ascending=True)
+```
+
+---
+
+# 15. Creating New Columns
+
+```python id="x5q1m7"
+df['new_col'] = df['col1'] + df['col2']
+```
+
+Example:
+
+```python id="k8m3x2"
+df['total_score'] = (
+    df['math_score'] +
+    df['science_score'] +
+    df['english_score'] +
+    df['programming_score']
+)
+```
+
+---
+
+# 16. Top Performing Student
+
+```python id="n4x7q2"
+top_student = df.loc[df['total_score'].idxmax()]
+
+display(top_student[['name', 'department', 'total_score']])
+```
+
+---
+
+# 17. Lowest Performing Student
+
+```python id="m2q8x5"
+low_student = df.loc[df['total_score'].idxmin()]
+
+display(low_student[['name', 'department', 'total_score']])
+```
+
+---
+
+# 18. Save DataFrame
+
+```python id="x1m5q9"
+df.to_csv('output.csv', index=False)
+```
+
+* Saves DataFrame as CSV file
+* `index=False` removes row numbers
+
+---
+
+# Types of Data
+
+## Structured Data
+
+* Organized in rows and columns
+* Same format for every record
+* Easy to store in databases
+
+### Examples
+
+* Student marksheet
+* Attendance register
+* Bank transactions
+
+### Formats
+
+* CSV
+* Excel
+* SQL
+
+---
+
+## Semi-Structured Data
+
+* Has tags/labels
+* Not fixed rows and columns
+* Supports nested data
+
+### Examples
+
+* API responses
+* WhatsApp metadata
+* Config files
+
+### Formats
+
+* JSON
+* XML
+
+---
+
+## Unstructured Data
+
+* No predefined structure
+* Difficult to store in tables directly
+
+### Examples
+
+* Images
+* Videos
+* Audio files
+* PDFs
+
+### Formats
+
+* JPG
+* MP4
+* MP3
+* PDF
+
+---
+
+## Important Fact
+
+```text id="v8q2m1"
+80% of data in the world is unstructured data.
+```
+
+---
+
+# GitHub Key Concepts
+
+| Term       | Meaning                  | Analogy             |
+| ---------- | ------------------------ | ------------------- |
+| Repository | Project folder on GitHub | Google Drive folder |
+| Commit     | Save snapshot            | Ctrl + S            |
+| Push       | Upload code              | Upload to Drive     |
+| Pull       | Download code            | Download from Drive |
+| README.md  | Project description      | Cover page          |
+| Branch     | Separate version         | Experimental copy   |
+
+---
+
+# GitHub Setup Steps
+
+1. Go to GitHub
+2. Sign Up
+3. Verify Email
+4. Click `+`
+5. Select `New Repository`
+6. Repository Name:
+
+   ```text id="7m4x1q"
+   codeboosters-internship-2024
+   ```
+7. Set Repository to Public
+8. Add README File
+9. Click Create Repository
+
+---
+
+# Upload Notebook to GitHub
+
+1. Open Repository
+2. Click `Add File`
+3. Select `Upload Files`
+4. Upload `.ipynb` file
+5. Add Commit Message
+6. Click `Commit Changes`
+
+---
+
+# Common Errors and Fixes
+
+| Error               | Solution                              |
+| ------------------- | ------------------------------------- |
+| ModuleNotFoundError | Install pandas using pip              |
+| FileNotFoundError   | Upload CSV file correctly             |
+| KeyError            | Check column names using `df.columns` |
+| SyntaxError         | Check brackets and quotes             |
+| IndentationError    | Use proper spacing                    |
+
+---
+
+# Dataset Reference — student_performance.csv
+
+| Column                | Description           |
+| --------------------- | --------------------- |
+| student_id            | Unique student ID     |
+| name                  | Student name          |
+| age                   | Student age           |
+| gender                | Male/Female           |
+| department            | Department name       |
+| semester              | Current semester      |
+| math_score            | Math marks            |
+| science_score         | Science marks         |
+| english_score         | English marks         |
+| programming_score     | Programming marks     |
+| attendance_percentage | Attendance percentage |
+| city                  | Student city          |
+| admission_year        | Admission year        |
+
+---
+
+# Important Note
+
+```text id="2q7m5x"
+This dataset will be used across all internship days for practice and analysis.
+```
