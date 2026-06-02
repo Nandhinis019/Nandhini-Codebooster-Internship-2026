@@ -1,9 +1,5 @@
 
-# Day 6 - GenAI + Prompt Engineering (Groq API)
-
-## Overview
-
-Day 6 focused on understanding Generative AI (GenAI), Prompt Engineering techniques, and integrating Groq API with LangChain to build intelligent AI applications.
+understanding Generative AI (GenAI), Prompt Engineering techniques, and integrating Groq API with LangChain to build intelligent AI applications.
 
 ---
 
